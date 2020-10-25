@@ -8,7 +8,7 @@ module.exports = {
     },
     'g': {
       entry: './src/pages/G/main.js',
-      template: 'public/g.html',
+      template: 'public/index.html',
       filename: 'g',
       title: 'G',
       chunks: [ 'chunk-vendors', 'chunk-common', 'g' ]
