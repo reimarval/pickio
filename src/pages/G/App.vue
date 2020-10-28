@@ -145,7 +145,7 @@
           </ul>
         </div>
         <div class="block">
-          <button class="button is-primary is-medium" disabled>
+          <button class="button" disabled>
             Spend Points
           </button>
         </div>
