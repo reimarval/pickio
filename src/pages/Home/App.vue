@@ -2,7 +2,7 @@
   <div id="app">
     <template v-if="nowView === 'creator'">
       <div class="container">
-        <h1>FriendlyAppName</h1>
+        <h1 class="title">FriendlyAppName</h1>
         <b-field label="Give it a name">
             <b-input v-model="name"></b-input>
         </b-field>
@@ -59,6 +59,6 @@ export default {
   margin-top: 60px;
 }
 .container{
-  max-width: 320px;
+  max-width: 340px !important;
 }
 </style>
