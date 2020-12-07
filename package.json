@@ -11,8 +11,10 @@
     "buefy": "^0.9.3",
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
+    "socket.io-client": "^3.0.3",
     "vue": "^2.6.11",
-    "vue-radial-progress": "^0.3.2"
+    "vue-radial-progress": "^0.3.2",
+    "vue-socket.io-extended": "^4.0.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
