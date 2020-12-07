@@ -6,7 +6,7 @@ import 'buefy/dist/buefy.css'
 import VueSocketio from "vue-socket.io-extended";
 import io from "socket.io-client";
 
-Vue.use(VueSocketio, io("https://pickio-backend.herokuapp.com:3000"));
+Vue.use(VueSocketio, io("https://pickio-backend.herokuapp.com"));
 
 Vue.config.productionTip = false
 Vue.use(Buefy)
