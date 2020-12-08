@@ -249,7 +249,7 @@
             </figure>
           </div>
           <div class="block" style="margin-bottom: 50px;">
-            <h1 class="title has-text-weight-bold is-uppercase" style="color:#EB5757">Losser pick</h1>
+            <h1 class="title has-text-weight-bold is-uppercase" style="color:#EB5757">Loser pick</h1>
             <h5 class="subtitle"><span class="has-text-weight-bold">0</span> points for you</h5>
           </div>
           <div class="block">
@@ -316,8 +316,8 @@ export default {
   name: 'G',
   data() {
     return {
-      player_name: 'Rose',
-      avatarSelector: '1F92F',
+      player_name: 'Ava',
+      avatarSelector: '1F973',
       gId: '',
       viewActive: '',
       players: [],
@@ -374,16 +374,17 @@ export default {
         this.countDownTimer();
         setTimeout(() => {
           this.sendPick(this.roundNumber, this.prePick);
-        }, 11000)
-        
+        }, 5000)
       }
     },
     counting_picks () {
       this.isCounting = true;
     },
     round_results (data) {
-      this.viewActive = 'result';
-      this.resultState = data;
+      if (this.viewActive === 'lobby' || this.viewActive === 'control' || this.viewActive === 'round') {
+        this.viewActive = 'result';
+        this.resultState = data;
+      }
     }
   },
   created: function () {
@@ -425,9 +426,9 @@ export default {
       } else {
         if (this.isAuthor) {
           let new_player = {
-            name: this.player_name, 
-            emoji: this.avatarSelector, 
-            type: 'author', 
+            name: this.player_name,
+            emoji: this.avatarSelector,
+            type: 'author',
             score: 0,
             picks: []
           }
@@ -519,6 +520,7 @@ export default {
 .container{
   max-width: 340px !important;
 }
+h1.title {margin-top: 0;}
 .b-radio.radio .control-label{
   height: 40px;
   width: 40px;
