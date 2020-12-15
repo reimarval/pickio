@@ -105,7 +105,7 @@
           </ul>
         </div>
         <div class="block">
-          <b-button type="is-success" v-on:click="startRound(1)">Start Next Round</b-button>        
+          <b-button type="is-success" v-on:click="startRound(roundNumber)">Start Next Round</b-button>
         </div>
         <div class="block">
           <h2>Share this lin link your friends:</h2>
@@ -123,7 +123,7 @@
           <h2 class="subtitle" style="color:#f14668">Waiting for *creator* to start the next round</h2>
         </div>
         <div class="block">
-          <h1 class="title">Round 1</h1>
+          <h1 class="title">Round {{ roundNumber }}</h1>
         </div>
         <div class="block">
           <div>
@@ -175,7 +175,7 @@
           </div>
         </div>
         <div class="columns" v-for="i in Math.ceil(rounds[0].items.length / 3)" :key="i">
-          <div v-for="(item, index) in rounds[0].items.slice((i - 1) * 3, i * 3)" :key="index" class="column" :class="{ prepicked: prePicked, }">
+          <div v-for="(item, index) in rounds[0].items.slice((i - 1) * 3, i * 3)" :key="index" class="column">
             <figure class="media-content">
               <p class="image is-100x100">
                 <a href="javascript:void(0);" @click="pickMade(roundNumber, item)">
@@ -201,7 +201,7 @@
                   <option value="mia">Didn't Answer</option>
               </b-select>
           </b-field>
-        </div> 
+        </div>
 
         <template v-if="resultState === 'win'">
           <div class="block">
@@ -224,7 +224,7 @@
             <ul>
               <li class="players" v-for="player in players" :key="player.name" style="display:inline-flex">
                 <div>
-                  <img width="50px" height="50px" :src="player.emoji" alt="emoji">
+                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
                 </div>
                 <div>
                   <span class="name">{{ player.name }}</span>
@@ -256,7 +256,7 @@
             <ul>
               <li class="players" v-for="player in players" :key="player.name" style="display:inline-flex">
                 <div>
-                  <img width="50px" height="50px" :src="player.emoji" alt="emoji">
+                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
                 </div>
                 <div>
                   <span class="name">{{ player.name }}</span>
@@ -290,7 +290,7 @@
             <ul>
               <li class="players" v-for="player in players" :key="player.name" style="display:inline-flex">
                 <div>
-                  <img width="50px" height="50px" :src="player.emoji" alt="emoji">
+                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
                 </div>
                 <div>
                   <span class="name">{{ player.name }}</span>
@@ -300,6 +300,11 @@
             </ul>
           </div>
         </template>
+
+        <div v-if="isAuthor" class="block">
+          <b-button type="is-success" v-on:click="nextRound">Continue</b-button>
+        </div>
+
 
 
       </div>
@@ -350,42 +355,12 @@ export default {
       ],
       prePicked: false,
       prePick: '',
-      isCounting: false
+      isCounting: false,
+      roundNumber: 1
     }
   },
   components: {
     RadialProgressBar
-  },
-  sockets: {
-    connect() {
-      console.log("connected");
-    },
-    update_players(data){
-      this.players = data;
-    },
-    game_id(data) {
-      console.log(data);
-    },
-    game_status(data) {
-      this.gameStatus = data;
-      if (this.viewActive === 'lobby' || this.viewActive === 'control') {
-        this.viewActive = 'round';
-        this.roundNumber = 1;
-        this.countDownTimer();
-        setTimeout(() => {
-          this.sendPick(this.roundNumber, this.prePick);
-        }, 5000)
-      }
-    },
-    counting_picks () {
-      this.isCounting = true;
-    },
-    round_results (data) {
-      if (this.viewActive === 'lobby' || this.viewActive === 'control' || this.viewActive === 'round') {
-        this.viewActive = 'result';
-        this.resultState = data;
-      }
-    }
   },
   created: function () {
     let pageURL = window.location.href
@@ -417,6 +392,55 @@ export default {
     if (userType === 'author') {
       this.isAuthor = true
       this.viewActive = 'owner'
+    }
+  },
+  sockets: {
+    connect() {
+      console.log("connected");
+    },
+    update_players(data){
+      this.players = data;
+    },
+    game_id(data) {
+      console.log(data);
+    },
+    game_status(data) {
+      this.gameStatus = data.status;
+      this.roundNumber = data.round;
+      if (this.gameStatus === 'lobby') {
+        this.countDown = 10;
+        if (this.viewActive === 'result') {
+          console.log(this.roundNumber);
+          if (this.isAuthor) {
+            this.viewActive = 'control'
+          } else {
+            this.viewActive = 'lobby'
+          }
+        }
+      } else if (this.gameStatus === 'round') {
+        if (this.viewActive === 'lobby' || this.viewActive === 'control') {
+          this.viewActive = data.status;
+          this.countDownTimer();
+          setTimeout(() => {
+            if (this.prePicked === true) {
+              this.sendPick(this.roundNumber, this.prePick);
+            } else {
+              this.sendPick(this.roundNumber, 'NA');
+            }
+          }, 11000)
+        }
+      }
+    },
+    counting_picks () {
+      this.isCounting = true;
+    },
+    round_results (data) {
+      if (this.viewActive === 'lobby' || this.viewActive === 'control' || this.viewActive === 'round') {
+        this.isCounting = false;
+        this.prePicked = false;
+        this.viewActive = 'result';
+        this.resultState = data;
+      }
     }
   },
   methods: {
@@ -455,13 +479,25 @@ export default {
     startRound (round) {
       this.$socket.client.emit('start_round', round);
     },
+    nextRound () {
+      this.$socket.client.emit('next_round', this.roundNumber);
+    },
     pickMade (round, pick) {
       this.prePicked = true;
       this.prePick = pick;
-      // console.log(this.roundNumber);
+      console.log('pickMade triggered');
     },
-    sendPick (round, pick) {
-      this.$socket.client.emit('pick_made', {'name':this.player_name, 'round':round, 'pick':pick});
+    // getPickClass (index) {
+    //   // console.log(index == this.prePick);
+    //   console.log(index);
+    //   // console.log(this.prePick);
+    //   if ((this.prePicked) && (index != this.prePick)) {
+    //     return 'prepicked'
+    //   }
+    // },
+    sendPick (sendRound, sendPick) {
+      this.$socket.client.emit('pick_made', {'name':this.player_name, 'round':sendRound, 'pick':sendPick});
+      // console.log(sendRound, sendPick);
     },
     copyLink () {
       let getGamelinkcontainer = document.getElementById('gamelink')
@@ -469,12 +505,21 @@ export default {
       document.execCommand('Copy')
     },
     countDownTimer() {
-      if(this.countDown > 0) {
-        setTimeout(() => {
-          this.countDown -= 1
-          this.countDownTimer()
-        }, 1000)
-      }
+      this.countDown = 10;
+      let downloadTimer = setInterval(() => {
+        if(this.countDown <= 1){
+          clearInterval(downloadTimer);
+        }
+        this.countDown -= 1;
+        // console.log(this.countDown);
+      }, 1000);
+      
+      // if(this.countDown > 0) {
+      //   setTimeout(() => {
+      //     this.countDown -= 1
+      //     this.countDownTimer()
+      //   }, 1000)
+      // }
     },
     drunkCalc (val) {
       if (val >= 80) {
@@ -503,7 +548,13 @@ export default {
   computed: {
     gamelink: function () {
       return window.location.href
-    }
+    },
+    // getPickClass: function () {
+    //   return {
+    //     prepicked: this.prePicked,
+    //     pick: this.prepick === 
+    //   }
+    // }
   }  
 }
 </script>
