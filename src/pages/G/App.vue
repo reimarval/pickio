@@ -174,11 +174,11 @@
             </radial-progress-bar>
           </div>
         </div>
-        <div class="columns" v-for="i in Math.ceil(rounds[0].items.length / 3)" :key="i">
-          <div v-for="(item, index) in rounds[0].items.slice((i - 1) * 3, i * 3)" :key="index" class="column">
+        <div :class="['items_container', { active: prePicked }]">
+          <div v-for="(item, index) in rounds[0].items" :key="index" :class="['item item_' + (index + 1), getPickClass(index + 1)]">
             <figure class="media-content">
               <p class="image is-100x100">
-                <a href="javascript:void(0);" @click="pickMade(roundNumber, item)">
+                <a href="javascript:void(0);" @click="pickMade(roundNumber, (index + 1))">
                   <b-skeleton circle width="100px" height="100px"></b-skeleton>
                   <p class="item-number">{{item}}</p>
                 </a>
@@ -193,7 +193,7 @@
     <div class="result-page" v-if="viewActive === 'result'">
       <div class="container">
 
-        <div class="block dev-select">
+        <!-- <div class="block dev-select">
           <b-field label="Dev View Selector">
               <b-select placeholder="Select a state" v-model="resultState">
                   <option value="win">Win</option>
@@ -201,7 +201,7 @@
                   <option value="mia">Didn't Answer</option>
               </b-select>
           </b-field>
-        </div>
+        </div> -->
 
         <template v-if="resultState === 'win'">
           <div class="block">
@@ -228,7 +228,7 @@
                 </div>
                 <div>
                   <span class="name">{{ player.name }}</span>
-                  <span class="score">{{ player.score }}</span>
+                  <span class="score">{{ player.score }}pts</span>
                 </div>
               </li>
             </ul>
@@ -260,7 +260,7 @@
                 </div>
                 <div>
                   <span class="name">{{ player.name }}</span>
-                  <span class="score">{{ player.score }}</span>
+                  <span class="score">{{ player.score }}pts</span>
                 </div>
               </li>
             </ul>
@@ -294,7 +294,7 @@
                 </div>
                 <div>
                   <span class="name">{{ player.name }}</span>
-                  <span class="score">{{ player.score }}</span>
+                  <span class="score">{{ player.score }}pts</span>
                 </div>
               </li>
             </ul>
@@ -321,7 +321,7 @@ export default {
   name: 'G',
   data() {
     return {
-      player_name: 'Ava',
+      player_name: '',
       avatarSelector: '1F973',
       gId: '',
       viewActive: '',
@@ -356,7 +356,8 @@ export default {
       prePicked: false,
       prePick: '',
       isCounting: false,
-      roundNumber: 1
+      roundNumber: 1,
+      clientId: ''
     }
   },
   components: {
@@ -382,6 +383,19 @@ export default {
     }
     this.$socket.client.emit('game_id', gId);
 
+
+    // checking for localStorage cliend ID
+    if (localStorage.getItem("pickio_cliend_id") === null) {
+      let clientId = this.randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+      localStorage.setItem('pickio_cliend_id', clientId);
+      this.clientId = clientId;
+    } else {
+      let clientId = localStorage.getItem('pickio_cliend_id');
+      this.$socket.client.emit('user_exist', clientId);
+      this.clientId = clientId;
+    }
+
+
     let userTypeLoc = pageURL.indexOf('t?=');
     let userType
     if (userTypeLoc === -1) {
@@ -401,6 +415,20 @@ export default {
     update_players(data){
       this.players = data;
     },
+    existing_user(data){
+      this.players = data.players;
+      this.player_name = data.existing.name;
+      this.avatarSelector = data.existing.emoji;
+      if (data.existing.type === 'author') {
+        this.isAuthor = true;
+        this.viewActive = 'control';
+      } else {
+        this.viewActive = 'lobby';
+      }
+    },
+    not_user() {
+      console.log('user not saved');
+    },
     game_id(data) {
       console.log(data);
     },
@@ -410,7 +438,7 @@ export default {
       if (this.gameStatus === 'lobby') {
         this.countDown = 10;
         if (this.viewActive === 'result') {
-          console.log(this.roundNumber);
+          // console.log(this.roundNumber);
           if (this.isAuthor) {
             this.viewActive = 'control'
           } else {
@@ -439,7 +467,8 @@ export default {
         this.isCounting = false;
         this.prePicked = false;
         this.viewActive = 'result';
-        this.resultState = data;
+        this.resultState = data.result;
+        this.players = data.players;
       }
     }
   },
@@ -454,26 +483,23 @@ export default {
             emoji: this.avatarSelector,
             type: 'author',
             score: 0,
-            picks: []
+            picks: [],
+            clientId : this.clientId
           }
           this.$socket.client.emit('new_player', new_player);
           this.viewActive = 'control';
         } else {
-          let new_player = { 
+          let new_player = {
             name: this.player_name, 
             emoji: this.avatarSelector, 
             type: 'invited', 
             score: 0,
-            picks: []
+            picks: [],
+            clientId : this.clientId
           };
           this.$socket.client.emit('new_player', new_player);
           this.viewActive = 'lobby';
         }
-        // setTimeout(() => {
-        //   this.players[0].score += 10
-        //   this.players[1].score += 10
-        //   this.players[2].score += 10
-        // }, 1000)
       }
     },
     startRound (round) {
@@ -485,16 +511,16 @@ export default {
     pickMade (round, pick) {
       this.prePicked = true;
       this.prePick = pick;
-      console.log('pickMade triggered');
     },
-    // getPickClass (index) {
-    //   // console.log(index == this.prePick);
-    //   console.log(index);
-    //   // console.log(this.prePick);
-    //   if ((this.prePicked) && (index != this.prePick)) {
-    //     return 'prepicked'
-    //   }
-    // },
+    getPickClass (index) {
+      // console.log(index == this.prePick);
+      // console.log(index);
+      // console.log(this.prePick);
+      if ((this.prePicked) && (index === this.prePick)) {
+        return 'prepicked'
+        // console.log('hi there');
+      }
+    },
     sendPick (sendRound, sendPick) {
       this.$socket.client.emit('pick_made', {'name':this.player_name, 'round':sendRound, 'pick':sendPick});
       // console.log(sendRound, sendPick);
@@ -513,13 +539,13 @@ export default {
         this.countDown -= 1;
         // console.log(this.countDown);
       }, 1000);
-      
-      // if(this.countDown > 0) {
-      //   setTimeout(() => {
-      //     this.countDown -= 1
-      //     this.countDownTimer()
-      //   }, 1000)
-      // }
+    },
+    randomString (idlenght, abc123) {
+      let stringGenerated = ''
+      for (var i = idlenght; i > 0; --i) {
+        stringGenerated += abc123[Math.round(Math.random() * (abc123.length - 1))]
+      }
+      return stringGenerated
     },
     drunkCalc (val) {
       if (val >= 80) {
@@ -650,4 +676,22 @@ h1.title {margin-top: 0;}
 .prepicked {
   opacity: .5;
 }
+.items_container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.items_container.active .item {
+  opacity: .5;
+}
+.items_container.active .item.prepicked {
+  opacity: 1;
+}
+.items_container .item {
+  flex-grow: 1;
+  width: 33%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+
 </style>
