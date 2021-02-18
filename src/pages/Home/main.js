@@ -6,6 +6,9 @@ import 'buefy/dist/buefy.css'
 import VueSocketio from "vue-socket.io-extended";
 import io from "socket.io-client";
 
+// Importing the global css file
+import '@/assets/global.css'
+
 Vue.use(VueSocketio, io("https://pickio-backend.herokuapp.com"));
 
 Vue.config.productionTip = false

@@ -1,192 +1,228 @@
 <template>
   <div id="app">
+    <HeaderCompo />
     
     <div class="join-page" v-if="viewActive === 'invited'">
       <div class="container">
-        <h1 class="title">You’re about to join SOMEONE Game</h1>
-        <div class="block">
-          <b-radio v-model="avatarSelector"
-              name="avatar"
-              native-value="1F973">
-            <img src="@/assets/1F973.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="avatar"
-              native-value="1F929">
-            <img src="@/assets/1F929.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="avatar"
-              native-value="1F61C">
-            <img src="@/assets/1F61C.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="avatar"
-              native-value="1F911">
-            <img src="@/assets/1F911.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="avatar"
-              native-value="1F92F">
-            <img src="@/assets/1F92F.svg" alt="emoji">
-          </b-radio>
+        <div class="box join">
+          <h2 class="sub">You’re about to join</h2>
+          <h1 class="title">{{ game_name }}</h1>
+          <div class="block">
+            <p class="guides">Pick your avatar</p>
+            <div class="wrap-pick-avatar">
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F973" value="1F973" v-model="avatarSelector">
+                <img src="@/assets/1F973.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F929" value="1F929" v-model="avatarSelector">
+                <img src="@/assets/1F929.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F61C" value="1F61C" v-model="avatarSelector">
+                <img src="@/assets/1F61C.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F911" value="1F911" v-model="avatarSelector">
+                <img src="@/assets/1F911.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F92F" value="1F92F" v-model="avatarSelector">
+                <img src="@/assets/1F92F.svg" alt="emoji">
+              </label>
+            </div>
+          </div>
+          <div>
+
+          </div>
+          <b-field label="What's Your Name?">
+              <b-input v-model="player_name" placeholder="Jong-Un..."></b-input>
+          </b-field>
+          <b-field label="Password please...">
+              <b-input type="password"
+                  value="iwantmytreasure"
+                  password-reveal>
+              </b-input>
+          </b-field>
+          <b-button class="bluish" type="is-success" v-on:click="joinGame">Join</b-button>
         </div>
-        <b-field label="What's Your Name?">
-            <b-input v-model="player_name"></b-input>
-        </b-field>
-        <b-field label="Password please...">
-            <b-input type="password"
-                value="iwantmytreasure"
-                password-reveal>
-            </b-input>
-        </b-field>
-        <b-button type="is-success" v-on:click="joinGame">Join Game</b-button>
       </div>
     </div>
 
     <div class="join-page" v-if="viewActive === 'owner'">
       <div class="container">
-        <h1 class="title">You’re about to join YOUR Game</h1>
-        <div class="block">
-          <b-radio v-model="avatarSelector"
-              name="name"
-              native-value="1F973">
-            <img src="@/assets/1F973.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="name"
-              native-value="1F929">
-            <img src="@/assets/1F929.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="name"
-              native-value="1F61C">
-            <img src="@/assets/1F61C.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="name"
-              native-value="1F911">
-            <img src="@/assets/1F911.svg" alt="emoji">
-          </b-radio>
-          <b-radio v-model="avatarSelector"
-              name="name"
-              native-value="1F92F">
-            <img src="@/assets/1F92F.svg" alt="emoji">
-          </b-radio>
-        </div>
-        <b-field label="What's Your Name?">
-            <b-input v-model="player_name"></b-input>
-        </b-field>
-        <div class="block">
-          <b-button type="is-success" v-on:click="joinGame">Join Game</b-button>
+        <div class="box join">
+          <h2 class="sub">You’re about to join</h2>
+          <h1 class="title">{{ game_name }}</h1>
+          <div class="block">
+            <p class="guides">Pick your avatar</p>
+            <div class="wrap-pick-avatar">
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F973" value="1F973" v-model="avatarSelector">
+                <img src="@/assets/1F973.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F929" value="1F929" v-model="avatarSelector">
+                <img src="@/assets/1F929.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F61C" value="1F61C" v-model="avatarSelector">
+                <img src="@/assets/1F61C.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F911" value="1F911" v-model="avatarSelector">
+                <img src="@/assets/1F911.svg" alt="emoji">
+              </label>
+              <label class="pick-avatar">
+                <input type="radio" name="avatar" id="1F92F" value="1F92F" v-model="avatarSelector">
+                <img src="@/assets/1F92F.svg" alt="emoji">
+              </label>
+            </div>
+          </div>
+          <b-field label="What's Your Name?" class="guides">
+              <b-input v-model="player_name" placeholder="Jong-Un..."></b-input>
+          </b-field>
+          <div class="block">
+            <b-button class="bluish" type="is-success" v-on:click="joinGame">Join</b-button>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="control-page" v-if="viewActive === 'control'">
       <div class="container">
-        <div class="block">
-          <h1 class="title">This is your game</h1>
-        </div>
-        <div class="block">
-          <ul>
-            <li class="players" v-for="player in players" :key="player.name">
-              <div>
-                <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
-              </div>
-              <div>
-                <span class="name">{{ player.name }}</span>
-                <span class="score">{{ player.score }}pts</span>
-              </div>
-              <div class="kick">
-                <a href="" class="delete"></a>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="block">
-          <b-button type="is-success" v-on:click="startRound(roundNumber)">Start Next Round</b-button>
-        </div>
-        <div class="block">
-          <h2>Share this lin link your friends:</h2>
-          <b-field label="Game link">
-              <b-input id="gamelink" v-model="gamelink" readonly=""></b-input>
-          </b-field>
-          <b-button type="is-link" @click="copyLink()">Copy Link</b-button><br>
+        <div class="box ">
+          <div class="block">
+            <h1 class="title">This is your game</h1>
+          </div>
+          <div class="block">
+            <ul>
+              <li class="players" v-for="player in players" :key="player.name">
+                <div>
+                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+                </div>
+                <div>
+                  <span class="name">{{ player.name }}</span>
+                  <span class="score">{{ player.score }}pts</span>
+                </div>
+                <div class="kick">
+                  <a href="" class="delete" @click="kickPlayer(player.clientId)"></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="block">
+            <b-button type="is-success" v-on:click="startRound()">Start Next Round</b-button>
+          </div>
+          <div class="block">
+            <h2>Share this lin link your friends:</h2>
+            <b-field label="Game link">
+                <b-input id="gamelink" v-model="gamelink" readonly=""></b-input>
+            </b-field>
+            <b-button type="is-link" @click="copyLink()">Copy Link</b-button><br>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="lobby-page" v-if="viewActive === 'lobby'">
       <div class="container">
-        <div class="block">
-          <h2 class="subtitle" style="color:#f14668">Waiting for *creator* to start the next round</h2>
-        </div>
-        <div class="block">
-          <h1 class="title">Round {{ roundNumber }}</h1>
-        </div>
-        <div class="block">
-          <div>
-            <h3 class="gamemode title is-3">Popular Pick Wins</h3>
+        <div class="box lobby">
+          <div class="block waiting">
+            <div class="wait-icon"><img src="@/assets/wait.svg" alt="wait"></div>
+            <p>Waiting for *creator* to start the next round</p>
           </div>
-        </div>
-        <div class="block">
-          <ul>
-            <li class="players" v-for="player in players" :key="player.name">
-              <b-progress class="drunkmeter" :type="drunkCalc(player.score)" :value="player.score"></b-progress>
-              <div>
-                <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+          <div class="block">
+            <h1 class="title">{{ game_name }}</h1>
+            <h2 class="sub">Round {{ roundNumber }}</h2>
+          </div>
+          <div class="block">
+            <div>
+              <h3 class="sub">Next round mode:</h3>
+              <div class="gamemode">
+                <div class="modename">
+                  <h3>Popular</h3>
+                </div>
+                <div class="modedesc">
+                  <h3>Most Popular Pick Wins</h3>
+                </div>
               </div>
-              <div>
-                <span class="name">{{ player.name }}</span>
-                <span class="score">{{ player.score }}pts</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="block">
-          <button class="button" disabled>
-            Spend Points
-          </button>
+            </div>
+          </div>
+          <div class="block" style="margin:0 -30px;">
+            <ul>
+              <li class="players" v-for="player in players" :key="player.name">
+                <div class="p-avatar">
+                  <b-progress class="drunkmeter" :type="drunkCalc(player.score)" :value="player.score"></b-progress>
+                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+                </div>
+                <div class="p-name">
+                  <span class="name">{{ player.name }}</span>
+                  <span class="score">{{ player.score }}pts</span>
+                </div>
+                <div class="punish">
+                  <a href="">
+                    <b-icon
+                        pack="fas"
+                        icon="wine-bottle"
+                        size="is-small">
+                    </b-icon>
+                  </a>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+          <div class="block">
+            <button class="button" disabled>
+              Spend Points
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="round-page" v-if="viewActive === 'round'">
       <div class="container">
-        <div class="columns">
-          <div class="column" style="text-align: left;">
-            <h1 class="title">Round {{ roundNumber }}</h1>
-            <h2 class="subtitle gamemode">Popular Pick</h2>
+        <div class="box round">
+          <div style="padding: 0 30px;position:relative;">
+            <div class="block" style="text-align: left;">
+              <h1 class="title round">Round {{ roundNumber }}</h1>
+              <h2 class="gamemode mini">Popular Mode</h2>
+            </div>
+            <div class="block thetimer" style="text-align: -webkit-right;">
+              <radial-progress-bar
+                :diameter="60"
+                :strokeWidth="14"
+                :completed-steps="countDown"
+                :total-steps="totalSteps"
+                :is-clockwise="false"
+                :inner-stroke-color="'#FFFFFF'"
+                :start-color="'#0899ff'"
+                :stop-color="'#207cff'"
+                :timingFunc="'linear'"
+              >
+              </radial-progress-bar>
+              <div class="text-timer">
+                <p class="count">{{ countDown }}</p>
+                <p>secs</p>
+              </div>
+            </div>
           </div>
-          <div class="column" style="text-align: -webkit-right;">
-            <radial-progress-bar
-              :diameter="80"
-              :completed-steps="countDown"
-              :total-steps="totalSteps"
-              :is-clockwise="false"
-              :inner-stroke-color="'#F6F6EF'"
-              :start-color="'#EB5757'"
-              :stop-color="'#EB5757'"
-            >
-              <p class="has-text-weight-semibold">{{ countDown }}</p>
-              <p>secs</p>
-            </radial-progress-bar>
+          <div :class="['items_container', { active: prePicked }]">
+            <div v-for="(item, index) in rounds[0].items" :key="index" :class="['item item_' + (index), getPickClass(index)]">
+              <figure class="media-content">
+                <p class="image is-100x100">
+                  <a href="javascript:void(0);" @click="pickMade(roundNumber, (index))">
+                    <b-skeleton circle width="90px" height="90px"></b-skeleton>
+                    <p class="item-number" v-html="getItemImg(item)"></p>
+                  </a>
+                </p>
+              </figure>
+            </div>
           </div>
+          <b-loading v-model="isCounting" :is-full-page="true" :can-cancel="false"></b-loading>
         </div>
-        <div :class="['items_container', { active: prePicked }]">
-          <div v-for="(item, index) in rounds[0].items" :key="index" :class="['item item_' + (index + 1), getPickClass(index + 1)]">
-            <figure class="media-content">
-              <p class="image is-100x100">
-                <a href="javascript:void(0);" @click="pickMade(roundNumber, (index + 1))">
-                  <b-skeleton circle width="100px" height="100px"></b-skeleton>
-                  <p class="item-number">{{item}}</p>
-                </a>
-              </p>
-            </figure>
-          </div>
-        </div>
-        <b-loading v-model="isCounting" :is-full-page="true" :can-cancel="false"></b-loading>
       </div>
     </div>
 
@@ -202,111 +238,148 @@
               </b-select>
           </b-field>
         </div> -->
+        <div class="box result">
+          <template v-if="resultState === 'won'">
+            <div class="block results-titles">
+              <h2 class="gamemode mini">Popular Mode</h2>
+              <h1 class="title">Good Choice</h1>
+            </div>
+            <div class="block results-items">
+              <div class="items_container">
+                <div class="item">
+                  <figure class="media-content">
+                    <div class="image is-100x100">
+                      <b-skeleton circle width="90px" height="90px"></b-skeleton>
+                      <div class="item-number" v-html="getItemImg(rounds[0].items[currentPick])"></div>
+                    </div>
+                  </figure>
+                </div>
+                <div class="item" v-if="winningPick !== null">
+                  <figure class="media-content">
+                    <div class="image is-100x100">
+                      <b-skeleton circle width="90px" height="90px"></b-skeleton>
+                      <div class="item-number" v-html="getItemImg(rounds[0].items[winningPick])"></div>
+                    </div>
+                  </figure>
+                </div>
+                <span class="result-icon correct">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+                </span>
+              </div>
+            </div>
+            <div class="block results-desc" style="margin-bottom: 20px;">
+              <h3 class="desc">Your pick was <br> the most popular</h3>
+              <h3 class="action" style="color:#00D73C">+10 <span>Points</span></h3>
+            </div>
+            <div class="block" style="margin: 0px -30px;">
+              <ul>
+                <li class="players" v-for="player in players" :key="player.name">
+                  <div class="p-avatar">
+                    <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+                  </div>
+                  <div class="p-name">
+                    <span class="name">{{ player.name }}</span>
+                    <span class="score">{{ player.score }}pts</span>
+                  </div>
+                  <div class="resultish" v-html="getPlayerAction(roundNumber, player.clientId)">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </template>
 
-        <template v-if="resultState === 'win'">
-          <div class="block">
-            <h2 class="subtitle gamemode">Popular Pick</h2>
-            <h1 class="title">Good Choice</h1>
-            <h4 class="subtitle is-4">You win this round!</h4>
-          </div>
-          <div class="block">
-            <figure class="media-content">
-              <p class="image is-200x200">
-                <b-skeleton circle width="200px" height="200px"></b-skeleton>
-              </p>
-            </figure>
-          </div>
-          <div class="block" style="margin-bottom: 50px;">
-            <h1 class="title has-text-weight-bold is-uppercase" style="color:#00D73C">Winner pick</h1>
-            <h5 class="subtitle"><span class="has-text-weight-bold">+10</span> points for you</h5>
-          </div>
-          <div class="block">
-            <ul>
-              <li class="players" v-for="player in players" :key="player.name" style="display:inline-flex">
-                <div>
-                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+          <template v-if="resultState === 'loss'">
+            <div class="block results-titles">
+              <h2 class="gamemode mini">Popular Mode</h2>
+              <h1 class="title">Bad Choice</h1>
+            </div>
+            <div class="block results-items">
+              <div class="items_container">
+                <div class="item">
+                  <figure class="media-content">
+                    <div class="image is-100x100">
+                      <b-skeleton circle width="90px" height="90px"></b-skeleton>
+                      <div class="item-number" v-html="getItemImg(rounds[0].items[currentPick])"></div>
+                    </div>
+                  </figure>
                 </div>
-                <div>
-                  <span class="name">{{ player.name }}</span>
-                  <span class="score">{{ player.score }}pts</span>
+                <div class="item" v-if="winningPick !== null">
+                  <figure class="media-content">
+                    <div class="image is-100x100">
+                      <b-skeleton circle width="90px" height="90px"></b-skeleton>
+                      <div class="item-number" v-html="getItemImg(rounds[0].items[winningPick])"></div>
+                    </div>
+                  </figure>
                 </div>
-              </li>
-            </ul>
-          </div>
-        </template>
+                <span class="result-icon correct" v-if="winningPick !== null">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+                </span>
+              </div>
+            </div>
+            <div class="block results-desc" style="margin-bottom: 20px;">
+              <h3 class="desc">Your pick wasn't <br> the most popular</h3>
+              <h3 class="action" style="color:#ff2753"><span>You Must</span> DRINK</h3>
+            </div>
+            <div class="block" style="margin: 0px -30px;">
+              <ul>
+                <li class="players" v-for="player in players" :key="player.name">
+                  <div class="p-avatar">
+                    <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+                  </div>
+                  <div class="p-name">
+                    <span class="name">{{ player.name }}</span>
+                    <span class="score">{{ player.score }}pts</span>
+                  </div>
+                  <div class="resultish" v-html="getPlayerAction(roundNumber, player.clientId)">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </template>
 
-        <template v-if="resultState === 'loss'">
-          <div class="block">
-            <h2 class="subtitle gamemode">Popular Pick</h2>
-            <h1 class="title">Bad Choice</h1>
-            <h4 class="subtitle is-4">You lose this round!</h4>
-          </div>
-          <div class="block">
-            <figure class="media-content">
-              <p class="image is-200x200">
-                <b-skeleton circle width="200px" height="200px"></b-skeleton>
-              </p>
-            </figure>
-          </div>
-          <div class="block" style="margin-bottom: 50px;">
-            <h1 class="title has-text-weight-bold is-uppercase" style="color:#EB5757">Loser pick</h1>
-            <h5 class="subtitle"><span class="has-text-weight-bold">0</span> points for you</h5>
-          </div>
-          <div class="block">
-            <ul>
-              <li class="players" v-for="player in players" :key="player.name" style="display:inline-flex">
-                <div>
-                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+          <template v-if="(resultState === 'mia') || (resultState === 'afk')">
+            <div class="block results-titles">
+              <h2 class="gamemode mini">Popular Mode</h2>
+              <h1 class="title">You there?</h1>
+            </div>
+            <div class="block results-items">
+              <div class="items_container">
+                <div class="item">
+                  <figure class="media-content">
+                    <div class="image is-100x100">
+                      <b-skeleton circle width="90px" height="90px"></b-skeleton>
+                      <div class="item-number">?</div>
+                    </div>
+                  </figure>
                 </div>
-                <div>
-                  <span class="name">{{ player.name }}</span>
-                  <span class="score">{{ player.score }}pts</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </template>
+              </div>
+            </div>
+            <div class="block results-desc" style="margin-bottom: 20px;">
+              <h3 class="desc">Didn’t choose on time</h3>
+              <h3 class="action" style="color:#ff2753"><span>You Must</span> DRINK</h3>
+            </div>
+            <div class="block" style="margin: 0px -30px;">
+              <ul>
+                <li class="players" v-for="player in players" :key="player.name">
+                  <div class="p-avatar">
+                    <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
+                  </div>
+                  <div class="p-name">
+                    <span class="name">{{ player.name }}</span>
+                    <span class="score">{{ player.score }}pts</span>
+                  </div>
+                  <div class="resultish" v-html="getPlayerAction(roundNumber, player.clientId)">
+                  </div>                  
+                </li>
+              </ul>
+            </div>
+          </template>
 
-        <template v-if="resultState === 'mia'">
-          <div class="block">
-            <h2 class="subtitle gamemode">Popular Pick</h2>
-            <h1 class="title">Didn't Answer</h1>
-            <h4 class="subtitle is-4">You lose this round!</h4>
+          <div v-if="isAuthor" class="block">
+            <b-button type="is-success" v-on:click="nextRound">Continue</b-button>
           </div>
-          <div class="block">
-            <figure class="media-content">
-              <p class="image is-200x200">
-                <a href="">
-                  <b-skeleton circle width="200px" height="200px"></b-skeleton>
-                </a>
-              </p>
-            </figure>
-          </div>
-          <div class="block" style="margin-bottom: 50px;">
-            <h1 class="title has-text-weight-bold is-uppercase" style="color:#EB5757">Must take a sip</h1>
-            <h5 class="subtitle"><span class="has-text-weight-bold">No points</span> & you will sitout the next rounds</h5>
-          </div>
-          <div class="block">
-            <ul>
-              <li class="players" v-for="player in players" :key="player.name" style="display:inline-flex">
-                <div>
-                  <img width="50px" height="50px" :src="getEmoji(player.emoji)" alt="emoji">
-                </div>
-                <div>
-                  <span class="name">{{ player.name }}</span>
-                  <span class="score">{{ player.score }}pts</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </template>
 
-        <div v-if="isAuthor" class="block">
-          <b-button type="is-success" v-on:click="nextRound">Continue</b-button>
         </div>
-
-
-
       </div>
     </div>
 
@@ -316,29 +389,31 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import RadialProgressBar from 'vue-radial-progress'
+import HeaderCompo from '@/components/HeaderCompo.vue'
 
 export default {
   name: 'G',
   data() {
     return {
+      game_name: '',
       player_name: '',
-      avatarSelector: '1F973',
+      avatarSelector: '1F61C',
       gId: '',
       viewActive: '',
       players: [],
       // completedSteps: 9,
-      totalSteps: 10,
-      countDown: 10,
+      totalSteps: 3,
+      countDown: 3,
       optionsColumns: 4,
       optionsRows: 3,
-      resultState: 'win',
+      resultState: 'won',
       isAuthor: false,
       gameStatus: '',
       rounds: [
         {
           round: 1,
           items: [
-            '1',
+            'drunkie.png',
             '2',
             '3',
             '4',
@@ -357,11 +432,14 @@ export default {
       prePick: '',
       isCounting: false,
       roundNumber: 1,
-      clientId: ''
+      clientId: '',
+      winningPick: null,
+      currentPick: null
     }
   },
   components: {
-    RadialProgressBar
+    RadialProgressBar,
+    HeaderCompo
   },
   created: function () {
     let pageURL = window.location.href
@@ -385,13 +463,14 @@ export default {
 
 
     // checking for localStorage cliend ID
-    if (localStorage.getItem("pickio_cliend_id") === null) {
+    let localClientId = 'pickio_cliend_id_'+gId
+    if (localStorage.getItem(localClientId) === null) {
       let clientId = this.randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-      localStorage.setItem('pickio_cliend_id', clientId);
+      localStorage.setItem(localClientId, clientId);
       this.clientId = clientId;
     } else {
-      let clientId = localStorage.getItem('pickio_cliend_id');
-      this.$socket.client.emit('user_exist', clientId);
+      let clientId = localStorage.getItem(localClientId);
+      this.$socket.client.emit('user_exist', {'clientId':clientId, 'gId':gId});
       this.clientId = clientId;
     }
 
@@ -413,17 +492,45 @@ export default {
       console.log("connected");
     },
     update_players(data){
-      this.players = data;
+      this.roundNumber = data.round;
+      this.gameStatus = data.status;
+      this.players = data.players;
+      let amIkicked = data.players.find(player => player.name === this.player_name);
+      if (!amIkicked) {
+        if (this.isAuthor) {
+          this.viewActive = 'owner';
+        } else {
+          this.viewActive = 'invited';
+        }
+      }
     },
     existing_user(data){
       this.players = data.players;
       this.player_name = data.existing.name;
       this.avatarSelector = data.existing.emoji;
+      this.roundNumber = data.game.round;
+      this.gameStatus = data.game.status;
+      this.winningPick = data.game.winning;
+      this.isCounting = false;
+      console.log(data.game.status);
+      if (data.game.status === 'result') {
+        let thisplayer = data.players.find(player => player.name === this.player_name);
+        if (thisplayer) {
+          let roundResult = thisplayer.picks.find(game => game.round === this.roundNumber);
+          console.log(roundResult.result);
+          this.resultState = String(roundResult.result);
+          this.currentPick = roundResult.pick;
+        }
+      }
       if (data.existing.type === 'author') {
         this.isAuthor = true;
-        this.viewActive = 'control';
+        if (data.game.status === 'lobby') {
+          this.viewActive = 'control';
+        } else {
+          this.viewActive = data.game.status;
+        }
       } else {
-        this.viewActive = 'lobby';
+        this.viewActive = data.game.status;
       }
     },
     not_user() {
@@ -432,11 +539,14 @@ export default {
     game_id(data) {
       console.log(data);
     },
+    game_name(data) {
+      this.game_name = data;
+    },
     game_status(data) {
       this.gameStatus = data.status;
       this.roundNumber = data.round;
-      if (this.gameStatus === 'lobby') {
-        this.countDown = 10;
+      // if (this.gameStatus === 'lobby') {
+        this.countDown = 3;
         if (this.viewActive === 'result') {
           // console.log(this.roundNumber);
           if (this.isAuthor) {
@@ -445,18 +555,21 @@ export default {
             this.viewActive = 'lobby'
           }
         }
-      } else if (this.gameStatus === 'round') {
-        if (this.viewActive === 'lobby' || this.viewActive === 'control') {
-          this.viewActive = data.status;
-          this.countDownTimer();
-          setTimeout(() => {
-            if (this.prePicked === true) {
-              this.sendPick(this.roundNumber, this.prePick);
-            } else {
-              this.sendPick(this.roundNumber, 'NA');
-            }
-          }, 11000)
-        }
+    },
+    round_starts (data) {
+      // this.$socket.client.emit('play_time', {'gId': this.gId});
+      this.gameStatus = data.status;
+      this.roundNumber = data.round;
+      if (this.viewActive === 'lobby' || this.viewActive === 'control') {
+        this.viewActive = data.status;
+        this.countDownTimer();
+        setTimeout(() => {
+          if (this.prePicked === true) {
+            this.sendPick(this.roundNumber, this.prePick);
+          } else {
+            this.sendPick(this.roundNumber, -1);
+          }
+        }, 4300)
       }
     },
     counting_picks () {
@@ -467,8 +580,16 @@ export default {
         this.isCounting = false;
         this.prePicked = false;
         this.viewActive = 'result';
-        this.resultState = data.result;
+        let thisplayer = data.players.find(player => player.name === this.player_name);
+        if (thisplayer) {
+          let roundResult = thisplayer.picks.find(game => game.round === this.roundNumber);
+          console.log(roundResult.result);
+          this.resultState = String(roundResult.result);
+          this.currentPick = roundResult.pick;
+        }
+        // this.resultState = data.result;
         this.players = data.players;
+        this.winningPick = data.winning;
       }
     }
   },
@@ -486,7 +607,7 @@ export default {
             picks: [],
             clientId : this.clientId
           }
-          this.$socket.client.emit('new_player', new_player);
+          this.$socket.client.emit('new_player', {'newPlayer':new_player, 'gId': this.gId});
           this.viewActive = 'control';
         } else {
           let new_player = {
@@ -497,33 +618,29 @@ export default {
             picks: [],
             clientId : this.clientId
           };
-          this.$socket.client.emit('new_player', new_player);
+          this.$socket.client.emit('new_player', {'newPlayer':new_player, 'gId': this.gId});
           this.viewActive = 'lobby';
         }
       }
     },
-    startRound (round) {
-      this.$socket.client.emit('start_round', round);
+    startRound () {
+      this.$socket.client.emit('start_round', {'round':this.roundNumber, 'gId': this.gId});
     },
     nextRound () {
-      this.$socket.client.emit('next_round', this.roundNumber);
+      this.$socket.client.emit('next_round', {'round':this.roundNumber, 'gId':this.gId});
     },
     pickMade (round, pick) {
       this.prePicked = true;
       this.prePick = pick;
     },
+    sendPick (sendRound, sendPick) {
+      this.$socket.client.emit('pick_made', {'name':this.player_name, 'round':sendRound, 'pick':sendPick, 'gId': this.gId});
+      // this.$socket.client.emit('pick_time');
+    },
     getPickClass (index) {
-      // console.log(index == this.prePick);
-      // console.log(index);
-      // console.log(this.prePick);
       if ((this.prePicked) && (index === this.prePick)) {
         return 'prepicked'
-        // console.log('hi there');
       }
-    },
-    sendPick (sendRound, sendPick) {
-      this.$socket.client.emit('pick_made', {'name':this.player_name, 'round':sendRound, 'pick':sendPick});
-      // console.log(sendRound, sendPick);
     },
     copyLink () {
       let getGamelinkcontainer = document.getElementById('gamelink')
@@ -531,7 +648,7 @@ export default {
       document.execCommand('Copy')
     },
     countDownTimer() {
-      this.countDown = 10;
+      this.countDown = 3;
       let downloadTimer = setInterval(() => {
         if(this.countDown <= 1){
           clearInterval(downloadTimer);
@@ -547,6 +664,9 @@ export default {
       }
       return stringGenerated
     },
+    kickPlayer(playerId) {
+      this.$socket.client.emit('kick_player', {'playerId':playerId, 'gId':this.gId});
+    },
     drunkCalc (val) {
       if (val >= 80) {
         return 'is-danger'
@@ -554,6 +674,33 @@ export default {
         return 'is-warning'
       } else {
         return 'is-success'
+      }
+    },
+    getPlayerAction (round, clientId) {
+      let thisplayer = this.players.find(player => player.clientId === clientId);
+      if (thisplayer) {
+        let playerResult = thisplayer.picks.find(game => game.round === round);
+        console.log(JSON.stringify(playerResult) +' hi there');
+        if (playerResult) {
+          let toReturn;
+          switch (playerResult.result) {
+            case 'won':
+              toReturn = `<span class='won'>+10PTS</span>`;
+              break;
+            case 'loss':
+              toReturn = `<span class='loss'>DRINK</span>`;
+              break;
+            case 'afk':
+              toReturn = `<span class='loss'>DRINK</span>`;
+              break;
+            case 'mia':
+              toReturn = `<span class='loss'>DRINK</span>`;
+              break;
+            default:
+              toReturn = '';
+          }          
+          return toReturn;
+        }
       }
     },
     getEmoji(val) {
@@ -568,6 +715,16 @@ export default {
         return require('../../assets/1F929.svg')
       } else {
         return require('../../assets/1F973.svg')
+      }
+    },
+    getItemImg(val) {
+      if (val.endsWith(".png")) {
+        if (val === 'drunkie.png'){
+          let requiring = require('../../assets/pick-items/drunkie.png');
+          return `<img src="`+requiring+`">`
+        }
+      } else {
+        return val
       }
     }
   },
@@ -586,112 +743,4 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.container{
-  max-width: 340px !important;
-}
-h1.title {margin-top: 0;}
-.b-radio.radio .control-label{
-  height: 40px;
-  width: 40px;
-  padding-left: 0 !important;
-}
-.players {
-  display: inline-flex;
-  position: relative;
-  margin: 0 10px 5px;
-  width: fit-content;
-  padding-top: 30px;
-}
-.control-page .players {
-  display: flex;
-  margin: 0 auto;
-  padding-top: 10px;
-}
-.result-page .players {
-  padding-top: 10px;
-}
-.players .name { display: block; font-weight: 600;}
-.players .score { display: block;}
-#gamelink { text-align: center;}
-.title.gamemode, .subtitle.gamemode {
-  background-color: #3298dc;
-  color: #fff;
-  border-radius: 4px;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 20px;
-}
-.round-page h2.subtitle.gamemode {
-  font-size: 19px;
-  padding: 5px;
-  margin: 0;
-}
-.result-page h2.subtitle.gamemode {
-  font-size: 19px;
-  padding: 5px;
-}
-.b-skeleton-item {
-  margin: 0 auto;
-}
-.dev-select{
-  background-color: #f5f5f5;
-  padding: 30px 20px;
-  position: fixed;
-  right: 0;
-  top: 0;
-}
-.progress-wrapper.drunkmeter {
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  position: absolute;
-  width: 30px;
-  top: 10px;
-  left: 10px;
-  margin: 0 !important;
-}
-.drunkmeter>progress{
-  height: 10px;
-  width: 30px;
-}
-.item-number {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-weight: bold;
-}
-.prepicked {
-  opacity: .5;
-}
-.items_container {
-  display: flex;
-  flex-wrap: wrap;
-}
-.items_container.active .item {
-  opacity: .5;
-}
-.items_container.active .item.prepicked {
-  opacity: 1;
-}
-.items_container .item {
-  flex-grow: 1;
-  width: 33%;
-  height: 100px;
-  margin-bottom: 10px;
-}
-
-
 </style>
