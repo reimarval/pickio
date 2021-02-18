@@ -413,8 +413,7 @@ export default {
         {
           round: 1,
           items: [
-            // 'drunkie.png',
-            '1',
+            'drunkie.png',
             '2',
             '3',
             '4',
