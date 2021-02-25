@@ -188,6 +188,12 @@ h1.title {
   margin: 0 auto;
   padding: 12px 14px 10px;
 }
+.gamemode.unpopular {
+  background-color: #1e7cff;
+}
+.gamemode.mini.unpopular {
+  background-color: #1e7cff;
+}
 .gamemode .modename {
   width: auto;
   margin-bottom: 2px;
@@ -391,6 +397,11 @@ h1.title {
   color: #00D73C;
   fill: #00D73C;
 }
+.result-icon.incorrect {
+  color: #ff3057;
+  fill: #ff3057;
+}
+
 
 
 
@@ -433,9 +444,9 @@ h1.title {
     font-weight: bold;
   }
   .item-number img {
-    height: 60px;
-    width: 60px;
-    border-radius: 10px;
+    height: 90px;
+    width: auto;
+    border-radius: 30px;
   }
   .prepicked {
     opacity: .5;
