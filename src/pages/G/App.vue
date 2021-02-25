@@ -415,8 +415,8 @@ export default {
           round: 1,
           items: [
             'drunkie.png',
-            'abvv.gif',
-            '3',
+            'qkrg.gif',
+            'akdk.gif',
             '4',
             '5',
             '6',
@@ -751,8 +751,8 @@ export default {
           return players;
         } else if (players >= 3) {
           return players - 1;
-        } else if (players >= 7) {
-          return 4
+        } else if (players >= 6) {
+          return 6
         }
       } else if (mode === 'unpopular') {
         if (players >= 1) {
