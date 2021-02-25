@@ -403,8 +403,8 @@ export default {
       viewActive: '',
       players: [],
       // completedSteps: 9,
-      totalSteps: 5,
-      countDown: 5,
+      totalSteps: 11,
+      countDown: 11,
       optionsColumns: 4,
       optionsRows: 3,
       resultState: 'won',
@@ -568,7 +568,7 @@ export default {
       this.gameMode = data.gamemode;
       console.log(this.gameMode);
       // if (this.gameStatus === 'lobby') {
-        this.countDown = 5;
+        this.countDown = 11;
         if (this.viewActive === 'result') {
           // console.log(this.roundNumber);
           if (this.isAuthor) {
@@ -595,7 +595,7 @@ export default {
           } else {
             this.sendPick(this.roundNumber, -1);
           }
-        }, 6300)
+        }, 11300)
       }
     },
     counting_picks () {
@@ -676,7 +676,7 @@ export default {
       document.execCommand('Copy')
     },
     countDownTimer() {
-      this.countDown = 5;
+      this.countDown = 11;
       let downloadTimer = setInterval(() => {
         if(this.countDown <= 1){
           clearInterval(downloadTimer);
